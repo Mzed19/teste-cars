@@ -18,6 +18,7 @@ use App\Http\Controllers\ProjectController;
 Route::prefix('/project')->group(function () {
     Route::get('/get-data', [ProjectController::class, "getData"]);
     Route::get('/up-data', [ProjectController::class, "upData"]);
+    Route::post('/get-values', [ProjectController::class, "getValues"]);
 });
 
 

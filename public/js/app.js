@@ -2263,7 +2263,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       cars: [],
-      car: []
+      car: [],
+      car_selected: [],
+      simulate: 1,
+      values: [],
+      init_value: ''
     };
   },
   methods: {
@@ -2276,8 +2280,20 @@ __webpack_require__.r(__webpack_exports__);
     getTable: function getTable() {
       var local = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/project/get-data').then(function (response) {
+        console.log('est aqui', local.cars);
         local.cars = response.data;
         local.car = response.data[0];
+      });
+    },
+    simulateValue: function simulateValue(car, init_value) {
+      var local = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/project/get-values', {
+        data: {
+          car: car,
+          init_value: init_value
+        }
+      }).then(function (response) {
+        local.values = response.data;
       });
     }
   },
@@ -40374,8 +40390,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.car,
-                    expression: "car"
+                    value: _vm.car_selected,
+                    expression: "car_selected"
                   }
                 ],
                 staticClass: "form-control h-100",
@@ -40389,7 +40405,7 @@ var render = function() {
                         var val = "_value" in o ? o._value : o.value
                         return val
                       })
-                    _vm.car = $event.target.multiple
+                    _vm.car_selected = $event.target.multiple
                       ? $$selectedVal
                       : $$selectedVal[0]
                   }
@@ -40409,133 +40425,285 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(4),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 col-md-3" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("img", {
-            staticClass: "card-img-top img-edited",
-            attrs: { src: _vm.car.img }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _c("strong", [_vm._v(_vm._s(_vm.car.model))])
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "card-text" }, [
-              _vm._v(_vm._s(_vm.car.description))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row pb-2" }, [
-              _c("div", { staticClass: "col-4 col-md-4" }, [
-                _c("span", { staticClass: "vert" }, [
-                  _c("img", {
-                    staticClass: "m-2",
-                    attrs: { src: "/img/date_range_24px.svg", alt: "" }
-                  }),
-                  _vm._v(" " + _vm._s(_vm.car.year))
-                ])
-              ]),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "Confirmar",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4),
               _vm._v(" "),
-              _c("div", { staticClass: "col-4 col-md-4" }, [
-                _c(
-                  "span",
-                  { staticClass: "vert" },
-                  [
-                    _c("img", {
-                      staticClass: "m-2",
-                      attrs: { src: "/img/Vector.svg", alt: "" }
-                    }),
-                    _c("t", { staticClass: "mr-1" }, [
-                      _vm._v(_vm._s(_vm.car.mileage))
-                    ]),
-                    _vm._v(" Km")
+              _c("div", { staticClass: "modal-body" }, [
+                _c("span", [_vm._v("Valor de entrada")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.init_value,
+                      expression: "init_value"
+                    }
                   ],
-                  1
-                )
+                  staticClass: "form-control",
+                  attrs: { type: "number", name: "", id: "" },
+                  domProps: { value: _vm.init_value },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.init_value = $event.target.value
+                    }
+                  }
+                })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-4 col-md-4" }, [
-                _c("span", { staticClass: "vert" }, [
-                  _c("img", {
-                    staticClass: "m-2",
-                    attrs: { src: "/img/ICON_CAMBIO.svg", alt: "" }
-                  }),
-                  _vm._v(_vm._s(_vm.car.exchange))
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("h3", {}, [
-              _c("strong", [_vm._v("R$ " + _vm._s(_vm.car.value))])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-9" }, [
-        _c("div", { staticClass: "card border" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _vm._m(5),
-            _vm._v(" "),
-            _vm._m(6),
-            _vm._v(" "),
-            _vm._m(7),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12 col-md-4" }, [
+              _c("div", { staticClass: "modal-footer" }, [
+                _vm._m(5),
+                _vm._v(" "),
                 _c(
                   "button",
-                  { staticClass: "btn bg rounded-pill w-100 p-2 bg-wpp " },
-                  [
-                    _c("h5", { staticClass: "m-0 " }, [
-                      _c("strong", [
+                  {
+                    staticClass: "btn bg waves-effect rounded-pill",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        ;(_vm.car = _vm.car_selected),
+                          _vm.simulateValue(_vm.car_selected, _vm.init_value)
+                      }
+                    }
+                  },
+                  [_vm._m(6)]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm.car != null
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12 col-md-3" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("img", {
+                staticClass: "card-img-top img-edited",
+                attrs: { src: _vm.car.img }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("h5", { staticClass: "card-title" }, [
+                  _c("strong", [_vm._v(_vm._s(_vm.car.model))])
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }, [
+                  _vm._v(_vm._s(_vm.car.description))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row pb-2" }, [
+                  _c("div", { staticClass: "col-4 col-md-4" }, [
+                    _c("span", { staticClass: "vert" }, [
+                      _c("img", {
+                        staticClass: "m-2",
+                        attrs: { src: "/img/date_range_24px.svg", alt: "" }
+                      }),
+                      _vm._v(" " + _vm._s(_vm.car.year))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-4 col-md-4" }, [
+                    _c(
+                      "span",
+                      { staticClass: "vert" },
+                      [
+                        _c("img", {
+                          staticClass: "m-2",
+                          attrs: { src: "/img/Vector.svg", alt: "" }
+                        }),
+                        _c("t", { staticClass: "mr-1" }, [
+                          _vm._v(_vm._s(_vm.car.mileage))
+                        ]),
+                        _vm._v(" Km")
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-4 col-md-4" }, [
+                    _c("span", { staticClass: "vert" }, [
+                      _c("img", {
+                        staticClass: "m-2",
+                        attrs: { src: "/img/ICON_CAMBIO.svg", alt: "" }
+                      }),
+                      _vm._v(_vm._s(_vm.car.exchange))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("h3", {}, [
+                  _c("strong", [_vm._v("R$ " + _vm._s(_vm.car.value))])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-9" }, [
+            _c("div", { staticClass: "card border" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _vm._m(7),
+                _vm._v(" "),
+                _vm.values != []
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 col-md-6" }, [
+                        _c("div", { staticClass: "card shadow-sm" }, [
+                          _c("div", { staticClass: "card-body " }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "d-flex flex-column bd-highlight mb-0"
+                              },
+                              [
+                                _vm._m(8),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "bd-highlight" }, [
+                                  _c(
+                                    "h3",
+                                    { staticClass: "m-0 p-0 color-app" },
+                                    [
+                                      _c("strong", [
+                                        _vm._v("R$ " + _vm._s(_vm.values.x6))
+                                      ])
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-12 col-md-3" }, [
+                    _c("div", { staticClass: "card" }, [
+                      _c("div", { staticClass: "card-body" }, [
                         _c(
-                          "svg",
+                          "div",
                           {
-                            staticClass: "bi bi-whatsapp",
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              width: "20",
-                              height: "20",
-                              fill: "currentColor",
-                              viewBox: "0 0 16 16"
-                            }
+                            staticClass: "d-flex flex-column bd-highlight mb-0"
                           },
                           [
-                            _c("path", {
-                              attrs: {
-                                d:
-                                  "M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
-                              }
-                            })
+                            _vm._m(9),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "bd-highlight" }, [
+                              _c("h3", { staticClass: "m-0 p-0 color-app" }, [
+                                _c("strong", [
+                                  _vm._v("R$ " + _vm._s(_vm.values.x12))
+                                ])
+                              ])
+                            ])
                           ]
-                        ),
-                        _vm._v(
-                          " \n                            Falar com consultor\n                            "
                         )
                       ])
                     ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-12 col-md-2 ml-0 pl-0 text-center " },
-                [
-                  _c("h6", { staticClass: "btn rounded-pill" }, [
-                    _c("strong", [_vm._v(_vm._s(_vm.car.store_phone))])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-12 col-md-3" }, [
+                    _c("div", { staticClass: "card" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "d-flex flex-column bd-highlight mb-0"
+                          },
+                          [
+                            _vm._m(10),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "bd-highlight" }, [
+                              _c("h3", { staticClass: "m-0 p-0 color-app" }, [
+                                _c("strong", [
+                                  _vm._v("R$ " + _vm._s(_vm.values.x48))
+                                ])
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
                   ])
-                ]
-              )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-12 col-md-4" }, [
+                    _c(
+                      "button",
+                      { staticClass: "btn bg rounded-pill w-100 p-2 bg-wpp " },
+                      [
+                        _c("h5", { staticClass: "m-0 " }, [
+                          _c("strong", [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-whatsapp",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "20",
+                                  height: "20",
+                                  fill: "currentColor",
+                                  viewBox: "0 0 16 16"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(
+                              " \n                            Falar com consultor\n                            "
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-12 col-md-2 ml-0 pl-0 text-center " },
+                    [
+                      _c("h6", { staticClass: "btn rounded-pill" }, [
+                        _c("strong", [_vm._v(_vm._s(_vm.car.store_phone))])
+                      ])
+                    ]
+                  )
+                ])
+              ])
             ])
           ])
         ])
-      ])
-    ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -40590,72 +40758,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h3", [_vm._v("Simulação")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
-      "div",
+      "button",
       {
-        staticClass: "modal fade",
-        attrs: {
-          id: "Confirmar",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalCenterTitle",
-          "aria-hidden": "true"
-        }
+        staticClass: "btn btn-danger rounded-pill",
+        attrs: { type: "button", "data-dismiss": "modal" }
       },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-dialog-centered",
-            attrs: { role: "document" }
-          },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c("h3", [_vm._v("Simulação")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("span", [_vm._v("Valor de entrada")]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "number", name: "", id: "" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger rounded-pill",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [
-                    _c("h5", { staticClass: "m-0" }, [
-                      _c("strong", [_vm._v("Cancelar")])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn bg waves-effect rounded-pill",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [
-                    _c("h5", { staticClass: "m-0" }, [
-                      _c("strong", [_vm._v("Simular")])
-                    ])
-                  ]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
+      [_c("h5", { staticClass: "m-0" }, [_c("strong", [_vm._v("Cancelar")])])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "m-0" }, [_c("strong", [_vm._v("Simular")])])
   },
   function() {
     var _vm = this
@@ -40675,72 +40799,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 col-md-6" }, [
-        _c("div", { staticClass: "card shadow-sm" }, [
-          _c("div", { staticClass: "card-body " }, [
-            _c("div", { staticClass: "d-flex flex-column bd-highlight mb-0" }, [
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h5", { staticClass: "m-0 p-0" }, [
-                  _c("strong", [_vm._v("6x")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h3", { staticClass: "m-0 p-0 color-app" }, [
-                  _c("strong", [_vm._v("R$ 26.455")])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "bd-highlight" }, [
+      _c("h5", { staticClass: "m-0 p-0" }, [_c("strong", [_vm._v("6x")])])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 col-md-3" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "d-flex flex-column bd-highlight mb-0" }, [
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h5", { staticClass: "m-0 p-0" }, [
-                  _c("strong", [_vm._v("12x")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h3", { staticClass: "m-0 p-0 color-app" }, [
-                  _c("strong", [_vm._v("R$ 26.455")])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-3" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "d-flex flex-column bd-highlight mb-0" }, [
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h5", { staticClass: "m-0 p-0" }, [
-                  _c("strong", [_vm._v("48x")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "bd-highlight" }, [
-                _c("h3", { staticClass: "m-0 p-0 color-app" }, [
-                  _c("strong", [_vm._v("R$ 26.455")])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "bd-highlight" }, [
+      _c("h5", { staticClass: "m-0 p-0" }, [_c("strong", [_vm._v("12x")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bd-highlight" }, [
+      _c("h5", { staticClass: "m-0 p-0" }, [_c("strong", [_vm._v("48x")])])
     ])
   }
 ]

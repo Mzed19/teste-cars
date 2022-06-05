@@ -21,7 +21,7 @@
             <h4><strong>Selecione o veículo que deseja simular o financiamento</strong> </h4><br>
             <div class="row">
               <div class="col-12 col-md-4">
-                  <select v-model="car" class="form-control h-100">
+                  <select v-model="car_selected" class="form-control h-100">
                       <option v-for="car_separate in cars" :value="car_separate">{{car_separate.model}}</option>
                   </select>
                 </div>
@@ -34,24 +34,24 @@
         <div class="modal fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                <div class="modal-header">
-                  <h3>Simulação</h3>
-                 
-                </div>
-                <div class="modal-body">
-                  <span>Valor de entrada</span>
-                  <input type="number" name="" id="" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal"><h5 class="m-0"><strong>Cancelar</strong></h5></button>
-                    <button  type="button" class="btn bg waves-effect rounded-pill" data-dismiss="modal" ><h5 class="m-0"><strong>Simular</strong></h5></button>
-                </div>
+                    <div class="modal-header">
+                    <h3>Simulação</h3>
+                    
+                    </div>
+                    <div class="modal-body">
+                    <span>Valor de entrada</span>
+                    <input v-model="init_value" type="number" name="" id="" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal"><h5 class="m-0"><strong>Cancelar</strong></h5></button>
+                        <button  type="button" class="btn bg waves-effect rounded-pill" data-dismiss="modal" @click="car = car_selected, simulateValue(car_selected, init_value)"><h5 class="m-0"><strong>Simular</strong></h5></button>
+                    </div>
                 </div>
             </div>
         </div>
           
 
-        <div class="row">
+        <div class="row" v-if="car != null">
             <div class="col-12 col-md-3">
                 
                 <div class="card">
@@ -71,7 +71,7 @@
                 
             </div>
 
-            <div class="col-12 col-md-9">
+            <div class="col-12 col-md-9" >
                 <div class="card border">
 
                 <div class="card-body">
@@ -84,14 +84,14 @@
                     </div>
                     
 
-                    <div class="row">
+                    <div class="row" v-if="values != []">
                         <div class="col-12 col-md-6">
                             <div class="card shadow-sm">
                                 <div class="card-body ">
 
                                     <div class="d-flex flex-column bd-highlight mb-0">
                                         <div class="bd-highlight"><h5 class="m-0 p-0"><strong>6x</strong></h5></div>
-                                        <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ 26.455</strong></h3></div>
+                                        <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x6}}</strong></h3></div>
                                     </div>
 
                                 </div>
@@ -105,7 +105,7 @@
                                 <div class="card-body">
                                     <div class="d-flex flex-column bd-highlight mb-0">
                                     <div class="bd-highlight"><h5 class="m-0 p-0"><strong>12x</strong></h5></div>
-                                    <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ 26.455</strong></h3></div>
+                                    <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x12}}</strong></h3></div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column bd-highlight mb-0">
                                     <div class="bd-highlight"><h5 class="m-0 p-0"><strong>48x</strong></h5></div>
-                                    <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ 26.455</strong></h3></div>
+                                    <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x48}}</strong></h3></div>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +162,11 @@ import axios from 'axios'
         data: function () {
           return {
             cars: [],
-            car: []
+            car: [],
+            car_selected: [],
+            simulate: 1,
+            values: [],
+            init_value: ''
           }
         },
         methods: {
@@ -181,11 +185,28 @@ import axios from 'axios'
 
                 axios.get('/api/project/get-data')
                 .then(function(response){
-                   
+                    console.log('est aqui', local.cars);
                     local.cars = response.data;
                     local.car = response.data[0];
                 });
             },
+
+            simulateValue(car, init_value){
+                let local = this;
+
+                axios.post('/api/project/get-values',{
+                    data: {
+                        car: car,
+                        init_value: init_value, 
+                    }
+                })
+                .then(function(response){
+                    
+                    local.values = response.data;
+                   
+                });
+            }
+
 
         },
         mounted() {

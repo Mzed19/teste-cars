@@ -58,5 +58,31 @@ class ProjectController
 
         Cars::create($data3);
     }
+
+    public static function getValues(Request $request){
+        
+        $data = $request->input('data');
+
+        $init_value = $data['init_value'];
+        $car = $data['car'];
+        
+        $value = $car['value'] - $init_value;
+
+        $x6 = $value/6;
+        $x12 = $value/12;
+        $x48 = $value/48;
+
+        $value = [
+            
+            'x6' => $x6,
+            'x12' => $x12,
+            'x48' => $x48,
+
+        ];
+       
+
+        return $value;
+
+    }
 }
 
