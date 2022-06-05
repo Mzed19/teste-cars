@@ -1,0 +1,56 @@
+<template>
+       <!-- BEGIN: Main Menu-->
+    <div class="main-menu  menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+       
+    <img width="95" height="48" class="mx-3 my-lg-50" src="/img/logo.png" >
+    
+      <div class="shadow-bottom"></div>
+      
+      <div  v-if="user != null" class="main-menu-content ps">
+        <ul  class="navigation navigation-main"  data-menu="menu-navigation">
+            
+
+            <li class="nav-item"><a class="d-flex align-items-center" href="/user/dashboard"> <i class="cil-home"></i> <span class="menu-title text-truncate" data-i18n="Email">Home</span></a>
+            </li>
+
+            <li class=" navigation-header"><span data-i18n="Financeiro">Administrativo</span><i data-feather="more-horizontal"></i>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/user/usuarios"><i data-feather='users'></i><span class="menu-title text-truncate">Usuarios</span></a>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/user/eventos"><i class="cil-chart"></i><span class="menu-title text-truncate">Eventos</span></a>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/user/processos"><i class="cil-blur"></i><span class="menu-title text-truncate">Processos</span></a>
+            </li>
+
+            <li class=" navigation-header"><span data-i18n="Financeiro">Configurações</span><i data-feather="more-horizontal"></i>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/empresa/"><i class="cil-building"></i><span class="menu-title text-truncate">Empresa</span></a>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/empresa/marketplace"><i class="cil-cart"></i><span class="menu-title text-truncate">Marketplace</span></a>
+            </li>
+
+            <li v-show="user.type == 99"  class=" navigation-header"><span data-i18n="Financeiro">Adiministrador do Sistema</span><i data-feather="more-horizontal"></i>
+            </li>
+
+            <li v-show="user.type == 99"  class=" nav-item"><a class="d-flex align-items-center" href="/user/logs"> <i class="cil-clipboard"></i><span class="menu-title text-truncate">Logs</span></a>
+            </li>
+
+            <li v-show="user.type == 99"  class=" navigation-header"><span data-i18n="Financeiro">Usuário</span><i data-feather="more-horizontal"></i>
+            </li>
+            
+            <li v-show="user.type != 99" class="nav-item"><a class="d-flex align-items-center" href="/user/dados"> <i data-feather='user'></i><span class="menu-title text-truncate">Meus Dados</span></a>
+            </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="/login"><i class="cil-account-logout"></i><span class="menu-title text-truncate">Logout</span></a>
+            </li>
+        </ul>
+    </div>
+    
+    </div>
+    <!-- END: Main Menu-->
+</template>
