@@ -92,9 +92,9 @@
           </h6>
             <div class="row">
                 <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/Facebook.svg" alt=""></button></div>
-                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/Instagram.svg" alt=""></img></button></div>
-                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/Twitter.svg" alt=""></img></button></div>
-                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/LinkedIN.svg" alt=""></img></button></div>
+                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/Instagram.svg" alt=""></button></div>
+                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/Twitter.svg" alt=""></button></div>
+                <div class="col-3 col-md-3"><button class="border-0 rounded bg"> <img src="/img/LinkedIN.svg" alt=""></button></div>
             </div>
         </div>
 

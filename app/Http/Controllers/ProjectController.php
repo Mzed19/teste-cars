@@ -8,7 +8,13 @@ use App\Cars;;
 class ProjectController 
 {
     public static function getData(){
-        return Cars::all();
+        $cars = Cars::all();
+        
+        if(count($cars) == 0){
+            return 404;
+        }
+
+            return $cars;
     }
 
     public static function upData(){
@@ -45,7 +51,7 @@ class ProjectController
 
         $data3 = [
             'img' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/1970_Plymouth_Barracuda_Coupe.jpg/300px-1970_Plymouth_Barracuda_Coupe.jpg',
-            'city' => 'Kentucky',
+            'city' => 'Idaho',
             'brand' => 'Plymouth',
             'model' => 'Plymouth Barracuda',
             'description' => 'FR layout',
@@ -64,6 +70,8 @@ class ProjectController
         $data = $request->input('data');
 
         $init_value = $data['init_value'];
+
+
         $car = $data['car'];
         
         $value = $car['value'] - $init_value;
@@ -72,16 +80,18 @@ class ProjectController
         $x12 = $value/12;
         $x48 = $value/48;
 
-        $value = [
+        $x6 = round($x6, 2);
+        $x12 = round($x12, 2);
+        $x48 = round($x48, 2);
+
+        return $value = [
             
             'x6' => $x6,
             'x12' => $x12,
             'x48' => $x48,
 
         ];
-       
-
-        return $value;
+        
 
     }
 }

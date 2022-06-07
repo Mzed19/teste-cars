@@ -25,7 +25,12 @@
                       <option v-for="car_separate in cars" :value="car_separate">{{car_separate.model}}</option>
                   </select>
                 </div>
-              <div class="col-12 col-md-2 mt-md-2 mt-4"><button data-toggle="modal" data-target="#Confirmar" class="btn bg rounded-pill w-100 p-2 "><h5 class="m-0"><strong>Simular</strong></h5></button></div>
+                <div class="col-12 col-md-2 mt-md-2 mt-4">
+                    <button  data-toggle="modal" data-target="#Confirmar" class="btn bg rounded-pill w-100 p-2 ">
+                      <h5 class="m-0"><strong>Simular</strong></h5>
+                      
+                    </button>
+                </div>
             </div>
             
           </div>
@@ -39,12 +44,23 @@
                     
                     </div>
                     <div class="modal-body">
+
+                    <span>Valor do veiculo</span>
+                    <p>R$ {{car_selected.value}}</p>
+
                     <span>Valor de entrada</span>
-                    <input v-model="init_value" type="number" name="" id="" class="form-control">
+                    <money class="form-control" v-model="init_value" v-bind="money"></money>
+                    
+                    <div v-if="init_value >= car_selected.value" class="alert alert-danger" role="alert">
+                        O valor de entrada deve ser menor
+                    </div>
+                    <div v-if="init_value < 0" class="alert alert-danger" role="alert">
+                        Valor de entrada deve ser maior que R$ 0
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal"><h5 class="m-0"><strong>Cancelar</strong></h5></button>
-                        <button  type="button" class="btn bg waves-effect rounded-pill" data-dismiss="modal" @click="car = car_selected, simulateValue(car_selected, init_value)"><h5 class="m-0"><strong>Simular</strong></h5></button>
+                        <button v-if="init_value < car_selected.value && init_value > 0" type="button" class="btn bg waves-effect rounded-pill" data-dismiss="modal" @click="car = car_selected, simulateValue(car_selected, init_value)"><h5 class="m-0"><strong>Simular</strong></h5></button>
                     </div>
                 </div>
             </div>
@@ -56,7 +72,18 @@
                 
                 <div class="card">
                     
-                    <img class="card-img-top img-edited" :src="car.img">
+                <div class="card-body img-edited" :style="'background-image: url('+car.img+'); background-repeat: no-repeat;  background-size: cover;  background-position: center;'">
+                    <div class="h-75">
+                    </div>
+                    <div class="row">
+                        <div class="col-4 bg-white border-edited">
+                            <span class="vert"><img src="/img/place_24px.svg" alt=""><t class="color-black ml-2">  {{car.city}}</t></span> 
+                        </div>
+                        <div class="col-4"></div>
+                        <div class="col-4"></div>
+                        
+                    </div>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title"><strong>{{car.model}}</strong></h5>
                     <p class="card-text">{{car.description}}</p>
@@ -88,12 +115,12 @@
                         <div class="col-12 col-md-6">
                             <div class="card shadow-sm">
                                 <div class="card-body ">
-
+                                    <div class="row">
                                     <div class="d-flex flex-column bd-highlight mb-0">
                                         <div class="bd-highlight"><h5 class="m-0 p-0"><strong>6x</strong></h5></div>
                                         <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x6}}</strong></h3></div>
                                     </div>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,8 +167,15 @@
                         <div class="col-12 col-md-2 ml-0 pl-0 text-center ">
                             <h6 class="btn rounded-pill"><strong>{{car.store_phone}}</strong></h6>
                         </div>
+                         
+                         
                     </div>
 
+                                
+                                
+                               
+                                
+                            
                 </div>
                 </div>
             </div>
@@ -155,18 +189,41 @@
 </template>
 
 <script>
+
 import axios from 'axios'
+import VueCurrencyInput from 'vue-currency-input'
+import VueNumeric from 'vue-numeric'
+import MoneyFormat from 'vue-money-format'
+import {Money} from 'v-money'
+Vue.use(Money)
+
+Vue.use(MoneyFormat)
+
+Vue.use(VueNumeric)
+Vue.use(VueCurrencyInput);
 
     export default {
-
+      
+        
         data: function () {
           return {
+              money: {
+                decimal: '.',
+                thousands: ',',
+                prefix: 'R$ ',
+                suffix: '',
+                precision: 2,
+                masked: false,
+            },
+            price: '',
+            init_value: 100,
             cars: [],
             car: [],
             car_selected: [],
             simulate: 1,
             values: [],
-            init_value: ''
+            
+            data: '',
           }
         },
         methods: {
@@ -185,7 +242,11 @@ import axios from 'axios'
 
                 axios.get('/api/project/get-data')
                 .then(function(response){
-                    console.log('est aqui', local.cars);
+                    console.log('1 ', local.cars);
+                    if(response.data == 404){
+                        console.log('caiu aq');
+                        local.upTable();
+                    }
                     local.cars = response.data;
                     local.car = response.data[0];
                 });
@@ -193,6 +254,8 @@ import axios from 'axios'
 
             simulateValue(car, init_value){
                 let local = this;
+                console.log(typeof(init_value));
+
 
                 axios.post('/api/project/get-values',{
                     data: {
@@ -219,50 +282,54 @@ import axios from 'axios'
     }
 </script>
 <style>
-        .bg-app{
-          background-color: #EBEEF2;
+    .bg-app{
+        background-color: #EBEEF2;
 
-        }
-        .container{
-        margin-top:80px;
-        margin-bottom:80px;
-        max-width: 1340px;
+    }
+    .container{
+    margin-top:80px;
+    margin-bottom:80px;
+    max-width: 1340px;
     }    
-      .img-card-user{
-      width:220px;
-      border-radius:50%;
-  }
-      .img-mini-card{
-          width:50px;
-      }
-      .centered {
-          margin: 0 auto !important;
-          float: none !important;
-      }
-      .bar{
-        border: 2px solid ;
-        border-radius: 7px;
-        width: 5%;
-        color: #7D28F7;
-        
-      }
-      .bg{
-        background-color: #7D28F7;
-        color: white !important;
-      }
-      .img-edited{
-        height: 180px;
-      }
-      .bg-wpp{
-        background-color: #1ABB59;
+    .img-card-user{
+    width:220px;
+    border-radius:50%;
+    }
+    .img-mini-card{
+        width:50px;
+    }
+    .centered {
+        margin: 0 auto !important;
+        float: none !important;
+    }
+    .bar{
+    border: 2px solid ;
+    border-radius: 7px;
+    width: 5%;
+    color: #7D28F7;
+    
+    }
+    .bg{
+    background-color: #7D28F7;
+    color: white !important;
+    }
+    .img-edited{
+    height: 180px;
+    
+    }
+    .bg-wpp{
+    background-color: #1ABB59;
 
-      }
-      .color-app{
-        color: #7D28F7;
-      }
-      .vert {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important; /** ISSO AQUI ALINHA VERTICALMENTE */
-        }
+    }
+    .color-app{
+    color: #7D28F7;
+    }
+    .vert {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important; /** ISSO AQUI ALINHA VERTICALMENTE */
+    }
+    .border-edited{
+        border-radius: 0px 20px 20px 0px;
+    }
     </style>
