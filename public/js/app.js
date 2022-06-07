@@ -2759,6 +2759,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7576,7 +7587,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bg-app{\n    background-color: #EBEEF2;\n}\n.container{\nmargin-top:80px;\nmargin-bottom:80px;\nmax-width: 1340px;\n}\n.img-card-user{\nwidth:220px;\nborder-radius:50%;\n}\n.img-mini-card{\n    width:50px;\n}\n.centered {\n    margin: 0 auto !important;\n    float: none !important;\n}\n.bar{\nborder: 2px solid ;\nborder-radius: 7px;\nwidth: 5%;\ncolor: #7D28F7;\n}\n.bg{\nbackground-color: #7D28F7;\ncolor: white !important;\n}\n.img-edited{\nheight: 180px;\n}\n.bg-wpp{\nbackground-color: #1ABB59;\n}\n.color-app{\ncolor: #7D28F7;\n}\n.vert {\n    display: flex !important;\n    justify-content: center !important;\n    align-items: center !important; /** ISSO AQUI ALINHA VERTICALMENTE */\n}\n.border-edited{\n    border-radius: 0px 20px 20px 0px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bg-app{\n    background-color: #EBEEF2;\n}\n.container{\nmargin-top:80px;\nmargin-bottom:80px;\nmax-width: 1340px;\n}\n.img-card-user{\nwidth:220px;\nborder-radius:50%;\n}\n.img-mini-card{\n    width:50px;\n}\n.centered {\n    margin: 0 auto !important;\n    float: none !important;\n}\n.bar{\nborder: 2px solid ;\nborder-radius: 7px;\nwidth: 5%;\ncolor: #7D28F7;\n}\n.bg{\nbackground-color: #7D28F7;\ncolor: white !important;\n}\n.img-edited{\nheight: 180px;\n}\n.bg-wpp{\nbackground-color: #1ABB59;\n}\n.color-app{\ncolor: #7D28F7;\n}\n.vert {\n    display: flex !important;\n    justify-content: center !important;\n    align-items: center !important; /** ISSO AQUI ALINHA VERTICALMENTE */\n}\n.border-edited{\n    border-radius: 0px 20px 20px 0px;\n}\n.border-edited-2{\n    border-radius: 20px 0px 0px 20px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -42001,28 +42012,80 @@ var render = function() {
                   ? _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-12 col-md-6" }, [
                         _c("div", { staticClass: "card shadow-sm" }, [
-                          _c("div", { staticClass: "card-body " }, [
+                          _c("div", { staticClass: "card-body card-edited" }, [
                             _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-6 col-md-8" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "d-flex flex-column bd-highlight mb-0"
+                                  },
+                                  [
+                                    _vm._m(8),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "bd-highlight" }, [
+                                      _c(
+                                        "h3",
+                                        { staticClass: "m-0 p-0 color-app" },
+                                        [
+                                          _c("strong", [
+                                            _vm._v(
+                                              "R$ " + _vm._s(_vm.values.x6)
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
                                   staticClass:
-                                    "d-flex flex-column bd-highlight mb-0"
+                                    "col-6 col-md-4 p-0 m-0 d-flex flex-column justify-content-center "
                                 },
                                 [
-                                  _vm._m(8),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "bd-highlight" }, [
-                                    _c(
-                                      "h3",
-                                      { staticClass: "m-0 p-0 color-app" },
-                                      [
-                                        _c("strong", [
-                                          _vm._v("R$ " + _vm._s(_vm.values.x6))
-                                        ])
-                                      ]
-                                    )
-                                  ])
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex flex-row-reverse bd-highlight"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "p-0 bd-highlight " },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "bg border-edited-2 p-1"
+                                            },
+                                            [
+                                              _c(
+                                                "t",
+                                                { staticClass: "h6 ml-1" },
+                                                [_vm._v("IPVA GRATIS")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", {
+                                        staticClass: "p-2 bd-highlight"
+                                      }),
+                                      _vm._v(" "),
+                                      _c("div", {
+                                        staticClass: "p-2 bd-highlight"
+                                      })
+                                    ]
+                                  )
                                 ]
                               )
                             ])

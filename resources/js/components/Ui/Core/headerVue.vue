@@ -114,12 +114,23 @@
                     <div class="row" v-if="values != []">
                         <div class="col-12 col-md-6">
                             <div class="card shadow-sm">
-                                <div class="card-body ">
+                                <div class="card-body card-edited">
                                     <div class="row">
-                                    <div class="d-flex flex-column bd-highlight mb-0">
-                                        <div class="bd-highlight"><h5 class="m-0 p-0"><strong>6x</strong></h5></div>
-                                        <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x6}}</strong></h3></div>
-                                    </div>
+                                        <div class="col-6 col-md-8">
+                                            <div class="d-flex flex-column bd-highlight mb-0">
+                                                <div class="bd-highlight"><h5 class="m-0 p-0"><strong>6x</strong></h5></div>
+                                                <div class="bd-highlight"><h3 class="m-0 p-0 color-app"><strong>R$ {{values.x6}}</strong></h3></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4 p-0 m-0 d-flex flex-column justify-content-center ">
+                                            <div class="d-flex flex-row-reverse bd-highlight">
+                                                <div class="p-0 bd-highlight ">
+                                                    <div class="bg border-edited-2 p-1"><t class="h6 ml-1">IPVA GRATIS</t></div>
+                                                </div>
+                                                <div class="p-2 bd-highlight"></div>
+                                                <div class="p-2 bd-highlight"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -331,5 +342,8 @@ Vue.use(VueCurrencyInput);
     }
     .border-edited{
         border-radius: 0px 20px 20px 0px;
+    }
+    .border-edited-2{
+        border-radius: 20px 0px 0px 20px;
     }
     </style>
